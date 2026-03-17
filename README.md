@@ -31,6 +31,7 @@
 - `dist/NCMConverter.app`
 - `dist/NCMConverter-unsigned.zip`
 - `dist/NCMConverter-unsigned.dmg`
+- 可选重命名（用于发布）：`dist/NCMConverter-vX.Y.Z.zip/.dmg`
 
 ## 应用行为
 
@@ -56,8 +57,8 @@ xattr -dr com.apple.quarantine /Applications/NCMConverter.app
 
 - 触发方式：推送 `v*` 标签
 - 发布产物：
-  - `NCMConverter-unsigned.zip`
-  - `NCMConverter-unsigned.dmg`
+  - `NCMConverter-vX.Y.Z.zip`
+  - `NCMConverter-vX.Y.Z.dmg`
 
 示例：
 
@@ -65,6 +66,20 @@ xattr -dr com.apple.quarantine /Applications/NCMConverter.app
 git tag v1.0.1
 git push origin v1.0.1
 ```
+
+### 上传本地编译产物到 Release（推荐用于保留 DMG 背景）
+
+当你希望 Release 使用**本地精调 DMG（含背景图）**时：
+
+```bash
+./scripts/make_dmg.sh
+./scripts/upload_local_release_assets.sh v1.0.1
+```
+
+说明：
+- 脚本会把本地 `dist/NCMConverter-unsigned.zip/.dmg` 复制为 `dist/NCMConverter-v1.0.1.zip/.dmg`
+- 然后上传到对应 tag 的 Release，并覆盖同名旧文件（`--clobber`）
+- 依赖 `gh`：`brew install gh && gh auth login`
 
 ## 开发环境要求
 
