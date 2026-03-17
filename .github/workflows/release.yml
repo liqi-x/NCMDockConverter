@@ -37,8 +37,9 @@ jobs:
       - name: Collect Artifacts
         run: |
           mkdir -p release
-          cp -f dist/NCMConverter-unsigned.zip release/ || true
-          cp -f dist/NCMConverter-unsigned.dmg release/ || true
+          VERSION="${GITHUB_REF_NAME:-dev}"
+          cp -f dist/NCMConverter-unsigned.zip "release/NCMConverter-${VERSION}.zip" || true
+          cp -f dist/NCMConverter-unsigned.dmg "release/NCMConverter-${VERSION}.dmg" || true
           ls -la release
 
       - name: Upload Workflow Artifacts
@@ -52,7 +53,8 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
+          overwrite_files: true
           files: |
-            release/NCMConverter-unsigned.zip
-            release/NCMConverter-unsigned.dmg
+            release/NCMConverter-${{ github.ref_name }}.zip
+            release/NCMConverter-${{ github.ref_name }}.dmg
           generate_release_notes: true
