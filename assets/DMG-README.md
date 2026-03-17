@@ -11,6 +11,6 @@ Recommended canvas:
 Then run:
 
 ```bash
-cd /Users/liqi/Documents/Playground/NCMDockConverter
+cd /Users/liqi/Documents/Playground/NCMConverter
 ./scripts/make_dmg.sh
 ```

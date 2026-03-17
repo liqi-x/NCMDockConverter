@@ -1,8 +1,8 @@
-# NCMDockConverter (macOS)
+# NCMConverter (macOS)
 
 一个可放在 Dock 运行的 macOS 小工具，**主打双击直接转换**：
 
-- 在 Finder 中双击 `.ncm`（或右键“打开方式”选择 NCMDockConverter），即可静默转换
+- 在 Finder 中双击 `.ncm`（或右键“打开方式”选择 NCMConverter），即可静默转换
 - 不弹主界面，直接在原目录输出音频文件
 - 转换完成自动退出
 
@@ -32,29 +32,29 @@
 ## 构建并打包 `.app`
 
 ```bash
-cd /Users/liqi/Documents/Playground/NCMDockConverter
+cd /Users/liqi/Documents/Playground/NCMConverter
 ./scripts/make_app.sh
 ```
 
 输出路径：
 
-`/Users/liqi/Documents/Playground/NCMDockConverter/dist/NCMDockConverter.app`
-`/Users/liqi/Documents/Playground/NCMDockConverter/dist/NCMDockConverter-unsigned.zip`
+`/Users/liqi/Documents/Playground/NCMConverter/dist/NCMConverter.app`
+`/Users/liqi/Documents/Playground/NCMConverter/dist/NCMConverter-unsigned.zip`
 
 ## 封装 `.dmg`
 
 ```bash
-cd /Users/liqi/Documents/Playground/NCMDockConverter
+cd /Users/liqi/Documents/Playground/NCMConverter
 ./scripts/make_dmg.sh
 ```
 
 输出路径：
 
-`/Users/liqi/Documents/Playground/NCMDockConverter/dist/NCMDockConverter-unsigned.dmg`
+`/Users/liqi/Documents/Playground/NCMConverter/dist/NCMConverter-unsigned.dmg`
 
 DMG 内会包含：
 
-- `NCMDockConverter.app`
+- `NCMConverter.app`
 - `Applications` 快捷方式
 - `损坏修复(输入密码并回车).command`（输入密码后自动去隔离并打开应用）
 
@@ -66,7 +66,7 @@ DMG 内会包含：
 
 支持的环境变量：
 
-- `APP_BUNDLE_ID`（默认 `com.liqi.NCMDockConverter`）
+- `APP_BUNDLE_ID`（默认 `com.liqi.NCMConverter`）
 - `APP_VERSION`（默认 `1.0`）
 - `APP_BUILD`（默认 `1`）
 
@@ -76,7 +76,7 @@ DMG 内会包含：
 2. 生成 `.icns`：
 
 ```bash
-cd /Users/liqi/Documents/Playground/NCMDockConverter
+cd /Users/liqi/Documents/Playground/NCMConverter
 ./scripts/make_icns.sh
 ```
 
@@ -88,7 +88,7 @@ cd /Users/liqi/Documents/Playground/NCMDockConverter
 
 必填环境变量：
 
-- `APP_BUNDLE_ID` 例如 `com.yourname.NCMDockConverter`
+- `APP_BUNDLE_ID` 例如 `com.yourname.NCMConverter`
 - `DEVELOPER_ID_APPLICATION` 例如 `Developer ID Application: Your Name (TEAMID)`
 - `APPLE_TEAM_ID` 例如 `ABCDE12345`
 
@@ -100,8 +100,8 @@ cd /Users/liqi/Documents/Playground/NCMDockConverter
 执行示例：
 
 ```bash
-cd /Users/liqi/Documents/Playground/NCMDockConverter
-APP_BUNDLE_ID="com.yourname.NCMDockConverter" \
+cd /Users/liqi/Documents/Playground/NCMConverter
+APP_BUNDLE_ID="com.yourname.NCMConverter" \
 DEVELOPER_ID_APPLICATION="Developer ID Application: Your Name (ABCDE12345)" \
 APPLE_TEAM_ID="ABCDE12345" \
 NOTARY_PROFILE="AC_NOTARY" \
@@ -117,24 +117,24 @@ NOTARY_PROFILE="AC_NOTARY" \
 
 并生成可分发文件：
 
-- `/Users/liqi/Documents/Playground/NCMDockConverter/dist/NCMDockConverter-notarized.zip`
+- `/Users/liqi/Documents/Playground/NCMConverter/dist/NCMConverter-notarized.zip`
 
 ## 运行
 
-双击 `dist/NCMDockConverter.app` 即可；应用会出现在 Dock。
+双击 `dist/NCMConverter.app` 即可；应用会出现在 Dock。
 
 ## 最快使用方式（推荐）
 
 1. 安装后，在 Finder 中找到 `.ncm` 文件
-2. 直接双击（或右键 -> 打开方式 -> `NCMDockConverter`）
+2. 直接双击（或右键 -> 打开方式 -> `NCMConverter`）
 3. 自动静默转换，输出写回原目录
 
 ## 分享给其他电脑（重要）
 
 - 请优先分享 zip 文件，不要直接把 `.app` 拖进聊天工具发送
-- 或分享 dmg 文件：`dist/NCMDockConverter-unsigned.dmg`
-- 无签名版本分享：`dist/NCMDockConverter-unsigned.zip`
-- 签名公证版本分享：`dist/NCMDockConverter-notarized.zip`（推荐）
+- 或分享 dmg 文件：`dist/NCMConverter-unsigned.dmg`
+- 无签名版本分享：`dist/NCMConverter-unsigned.zip`
+- 签名公证版本分享：`dist/NCMConverter-notarized.zip`（推荐）
 
 无开发者账号时（重要）：
 
@@ -145,7 +145,7 @@ NOTARY_PROFILE="AC_NOTARY" \
 若接收方仍提示“已损坏”，可在接收方机器执行：
 
 ```bash
-xattr -dr com.apple.quarantine /path/to/NCMDockConverter.app
+xattr -dr com.apple.quarantine /path/to/NCMConverter.app
 ```
 
 启动行为：
@@ -155,14 +155,14 @@ xattr -dr com.apple.quarantine /path/to/NCMDockConverter.app
 
 静默模式日志文件：
 
-- `~/Library/Logs/NCMDockConverter.log`
+- `~/Library/Logs/NCMConverter.log`
 
 ## Dock 拖拽排障
 
 如果“拖到 Dock 图标”仍无反应，请按顺序做：
 
 1. 删除旧的 Dock 图标（右键图标 -> 选项 -> 从 Dock 中移除）
-2. 用新构建产物替换旧 app：`dist/NCMDockConverter.app`
+2. 用新构建产物替换旧 app：`dist/NCMConverter.app`
 3. 双击新 app 启动一次，再把它重新固定到 Dock
 4. 再次把 `.ncm` 拖到 Dock 图标测试
 

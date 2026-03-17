@@ -2,8 +2,8 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-APP_NAME="NCMDockConverter"
-APP_BUNDLE_ID="${APP_BUNDLE_ID:-com.liqi.NCMDockConverter}"
+APP_NAME="NCMConverter"
+APP_BUNDLE_ID="${APP_BUNDLE_ID:-com.liqi.NCMConverter}"
 APP_VERSION="${APP_VERSION:-1.0}"
 APP_BUILD="${APP_BUILD:-1}"
 BUILD_DIR="$ROOT_DIR/.build/release"

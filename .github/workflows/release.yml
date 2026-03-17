@@ -22,29 +22,29 @@ jobs:
           chmod +x ./scripts/make_app.sh ./scripts/make_dmg.sh
           ./scripts/make_app.sh
           mkdir -p dist/.ci-dmg-staging
-          cp -R dist/NCMDockConverter.app dist/.ci-dmg-staging/NCMDockConverter.app
+          cp -R dist/NCMConverter.app dist/.ci-dmg-staging/NCMConverter.app
           ln -s /Applications dist/.ci-dmg-staging/Applications
           hdiutil create \
-            -volname "NCMDockConverter" \
+            -volname "NCMConverter" \
             -srcfolder dist/.ci-dmg-staging \
             -fs HFS+ \
             -format UDZO \
             -imagekey zlib-level=9 \
             -ov \
-            dist/NCMDockConverter-unsigned.dmg
+            dist/NCMConverter-unsigned.dmg
           rm -rf dist/.ci-dmg-staging
 
       - name: Collect Artifacts
         run: |
           mkdir -p release
-          cp -f dist/NCMDockConverter-unsigned.zip release/ || true
-          cp -f dist/NCMDockConverter-unsigned.dmg release/ || true
+          cp -f dist/NCMConverter-unsigned.zip release/ || true
+          cp -f dist/NCMConverter-unsigned.dmg release/ || true
           ls -la release
 
       - name: Upload Workflow Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: NCMDockConverter-release
+          name: NCMConverter-release
           path: release/*
           if-no-files-found: error
 
@@ -53,6 +53,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release/NCMDockConverter-unsigned.zip
-            release/NCMDockConverter-unsigned.dmg
+            release/NCMConverter-unsigned.zip
+            release/NCMConverter-unsigned.dmg
           generate_release_notes: true

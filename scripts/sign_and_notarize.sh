@@ -2,13 +2,13 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-APP_NAME="NCMDockConverter"
+APP_NAME="NCMConverter"
 APP_PATH="$ROOT_DIR/dist/$APP_NAME.app"
 ZIP_PATH="$ROOT_DIR/dist/$APP_NAME-notarize.zip"
 FINAL_ZIP_PATH="$ROOT_DIR/dist/$APP_NAME-notarized.zip"
 
 # Required env vars:
-#   APP_BUNDLE_ID                e.g. com.yourname.NCMDockConverter
+#   APP_BUNDLE_ID                e.g. com.yourname.NCMConverter
 #   DEVELOPER_ID_APPLICATION     e.g. Developer ID Application: Your Name (TEAMID)
 #   APPLE_TEAM_ID                e.g. ABCDE12345
 # Auth mode 1 (recommended):

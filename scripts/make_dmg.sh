@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-APP_NAME="NCMDockConverter"
+APP_NAME="NCMConverter"
 APP_PATH="$ROOT_DIR/dist/$APP_NAME.app"
 DMG_PATH="$ROOT_DIR/dist/$APP_NAME-unsigned.dmg"
 RW_DMG_PATH="$ROOT_DIR/dist/$APP_NAME-tmp.dmg"
@@ -53,12 +53,12 @@ cat > "$STAGE_DIR/Install_and_Open.command" <<'SCRIPT'
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP_NAME="NCMDockConverter.app"
+APP_NAME="NCMConverter.app"
 TARGET_APP="/Applications/$APP_NAME"
 SOURCE_DIR="$(cd "$(dirname "$0")" && pwd)"
 SOURCE_APP="$SOURCE_DIR/$APP_NAME"
 
-echo "NCMDockConverter installer helper"
+echo "NCMConverter installer helper"
 echo
 
 if [[ ! -d "$TARGET_APP" ]]; then

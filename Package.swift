@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "NCMDockConverter",
+    name: "NCMConverter",
     platforms: [
         .macOS(.v13)
     ],
     products: [
-        .executable(name: "NCMDockConverter", targets: ["NCMDockConverter"])
+        .executable(name: "NCMConverter", targets: ["NCMDockConverter"])
     ],
     targets: [
         .executableTarget(

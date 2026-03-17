@@ -10,7 +10,7 @@ Put a 1024x1024 PNG at:
 Generate `.icns`:
 
 ```bash
-cd /Users/liqi/Documents/Playground/NCMDockConverter
+cd /Users/liqi/Documents/Playground/NCMConverter
 ./scripts/make_icns.sh
 ```
 

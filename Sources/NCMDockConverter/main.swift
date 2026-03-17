@@ -5,7 +5,7 @@ import UniformTypeIdentifiers
 
 @MainActor
 @main
-struct NCMDockConverterApp: App {
+struct NCMConverterApp: App {
     @StateObject private var viewModel = ConverterViewModel.shared
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
@@ -154,7 +154,7 @@ final class ConverterViewModel: ObservableObject {
     @Published var isConverting = false
     @Published var logs: [String] = ["将 .ncm 文件拖入窗口即可开始转换（原目录输出）。"]
     private let logFileURL = FileManager.default.homeDirectoryForCurrentUser
-        .appendingPathComponent("Library/Logs/NCMDockConverter.log")
+        .appendingPathComponent("Library/Logs/NCMConverter.log")
 
     func convertDroppedItems(
         _ items: [URL],
@@ -179,7 +179,7 @@ final class ConverterViewModel: ObservableObject {
 
         guard !ncmToConvert.isEmpty || !flacToConvert.isEmpty else {
             appendLog("无可转换文件：请检查文件夹读写权限后重试。")
-            appendLog("可在“系统设置 -> 隐私与安全性 -> 文件与文件夹”中允许 NCMDockConverter 访问“音乐文件夹”。")
+            appendLog("可在“系统设置 -> 隐私与安全性 -> 文件与文件夹”中允许 NCMConverter 访问“音乐文件夹”。")
             if terminateWhenDone {
                 NSApp.terminate(nil)
             }
