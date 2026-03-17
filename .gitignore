@@ -1,0 +1,16 @@
+.DS_Store
+
+# SwiftPM / build artifacts
+.build/
+
+# App distribution artifacts
+dist/
+
+# Xcode user data (if opened in Xcode later)
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# Logs
+*.log
