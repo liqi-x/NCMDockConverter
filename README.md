@@ -1,13 +1,20 @@
 # NCMDockConverter (macOS)
 
-一个可放在 Dock 运行的 macOS 小工具：把 `.ncm` 文件拖入窗口后，调用 `ncmdump` 在原文件目录转换为 `.mp3/.flac`。
+一个可放在 Dock 运行的 macOS 小工具，**主打双击直接转换**：
+
+- 在 Finder 中双击 `.ncm`（或右键“打开方式”选择 NCMDockConverter），即可静默转换
+- 不弹主界面，直接在原目录输出音频文件
+- 转换完成自动退出
+
+同时也支持把 `.ncm` 拖入窗口或拖到 Dock 图标转换。
 
 基于文档与工具：<https://github.com/taurusxin/ncmdump>
 
 ## 功能
 
+- **双击/打开方式直接转换（优先能力）**：在 Finder 中直接打开 `.ncm` 即可开始转换
 - 拖拽一个或多个 `.ncm` 文件到窗口
-- 也支持把 `.ncm` 文件直接拖到 Dock 里的应用图标
+- 把 `.ncm` 文件直接拖到 Dock 里的应用图标
 - 逐个调用 `ncmdump <file.ncm>`
 - 输出文件保留在原目录（由 `ncmdump` 默认行为决定）
 - 窗口中显示实时日志
@@ -116,6 +123,12 @@ NOTARY_PROFILE="AC_NOTARY" \
 
 双击 `dist/NCMDockConverter.app` 即可；应用会出现在 Dock。
 
+## 最快使用方式（推荐）
+
+1. 安装后，在 Finder 中找到 `.ncm` 文件
+2. 直接双击（或右键 -> 打开方式 -> `NCMDockConverter`）
+3. 自动静默转换，输出写回原目录
+
 ## 分享给其他电脑（重要）
 
 - 请优先分享 zip 文件，不要直接把 `.app` 拖进聊天工具发送
@@ -138,7 +151,7 @@ xattr -dr com.apple.quarantine /path/to/NCMDockConverter.app
 启动行为：
 
 - 手动双击启动：显示主界面
-- 拖 `.ncm` 到 Dock 图标 / 用“打开方式”唤起：后台静默转换，不弹主界面；完成后自动退出
+- 双击 `.ncm` / 用“打开方式”唤起 / 拖 `.ncm` 到 Dock 图标：后台静默转换，不弹主界面；完成后自动退出
 
 静默模式日志文件：
 
