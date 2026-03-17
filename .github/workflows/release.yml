@@ -1,0 +1,46 @@
+name: Build And Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build DMG And ZIP
+        run: |
+          chmod +x ./scripts/make_app.sh ./scripts/make_dmg.sh
+          ./scripts/make_dmg.sh
+
+      - name: Collect Artifacts
+        run: |
+          mkdir -p release
+          cp -f dist/NCMDockConverter-unsigned.zip release/ || true
+          cp -f dist/NCMDockConverter-unsigned.dmg release/ || true
+          ls -la release
+
+      - name: Upload Workflow Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: NCMDockConverter-release
+          path: release/*
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/NCMDockConverter-unsigned.zip
+            release/NCMDockConverter-unsigned.dmg
+          generate_release_notes: true
