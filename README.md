@@ -1,84 +1,84 @@
 # NCMConverter (macOS)
 
-A macOS app for NetEase `.ncm` conversion, focused on **double-click direct conversion**.
+一个用于网易云 `.ncm` 转换的 macOS 工具，核心是 **双击直接转换**。
 
-## Features
+## 功能
 
-- Double-click `.ncm` in Finder (or use **Open With -> NCMConverter**) to convert silently
-- Drag `.ncm` onto Dock icon for silent conversion
-- Drag `.ncm` into app window for visible log mode
-- Optional setting: force output to MP3 when source stream is FLAC
-- Extra utility: drop `.flac` to convert directly to `.mp3`
-- Output files are written in the original file directory
+- 在 Finder 中双击 `.ncm`（或“打开方式 -> NCMConverter”）即可静默转换
+- 把 `.ncm` 拖到 Dock 图标可静默转换
+- 把 `.ncm` 拖到应用窗口可查看实时日志
+- 可选设置：当源流是 FLAC 时强制输出 MP3
+- 附加能力：可直接拖入 `.flac` 转换为 `.mp3`
+- 输出文件默认写回原文件目录
 
-Based on: [taurusxin/ncmdump](https://github.com/taurusxin/ncmdump)
+基于项目：[taurusxin/ncmdump](https://github.com/taurusxin/ncmdump)
 
-## Quick Start
+## 快速开始
 
-1. Build app:
+1. 构建应用：
 
 ```bash
 ./scripts/make_app.sh
 ```
 
-2. Build DMG:
+2. 构建 DMG：
 
 ```bash
 ./scripts/make_dmg.sh
 ```
 
-3. Output artifacts:
+3. 输出产物：
 - `dist/NCMConverter.app`
 - `dist/NCMConverter-unsigned.zip`
 - `dist/NCMConverter-unsigned.dmg`
 
-## In-App Behavior
+## 应用行为
 
-- Launch app manually: shows main window
-- Open `.ncm` by double-click / Open With / Dock drop: runs silently and exits after conversion
-- Silent log file: `~/Library/Logs/NCMConverter.log`
+- 手动启动应用：显示主界面
+- 双击 `.ncm` / 打开方式 / Dock 拖拽：后台静默转换，完成后自动退出
+- 静默日志路径：`~/Library/Logs/NCMConverter.log`
 
 ## 在其他电脑中打开
 
-- Recommended: share `dist/NCMConverter-unsigned.dmg` or `dist/NCMConverter-unsigned.zip`
-- Without Developer ID notarization, Gatekeeper behavior may vary by macOS version
-- If target Mac shows “damaged”, run:
+- 建议分享：`dist/NCMConverter-unsigned.dmg` 或 `dist/NCMConverter-unsigned.zip`
+- 若未使用 Developer ID 公证，不同 macOS 版本的 Gatekeeper 行为会不同
+- 若目标电脑提示“已损坏”，可执行：
 
 ```bash
 xattr -dr com.apple.quarantine /Applications/NCMConverter.app
 ```
 
-- DMG includes helper script: `损坏修复(输入密码并回车).command`
+- DMG 内置辅助脚本：`损坏修复(输入密码并回车).command`
 
-## Release (GitHub)
+## GitHub 发布
 
-This repo includes GitHub Actions workflow: `.github/workflows/release.yml`
+仓库已内置 GitHub Actions 工作流：`.github/workflows/release.yml`
 
-- Trigger: push tag `v*`
-- Output assets:
+- 触发方式：推送 `v*` 标签
+- 发布产物：
   - `NCMConverter-unsigned.zip`
   - `NCMConverter-unsigned.dmg`
 
-Example:
+示例：
 
 ```bash
 git tag v1.0.1
 git push origin v1.0.1
 ```
 
-## Development Requirements
+## 开发环境要求
 
 - macOS 13+
-- Xcode 15+ (Swift 6 toolchain)
-- `ncmdump` binary available (bundled from `assets/` or local install)
-- Optional: `ffmpeg` for FLAC->MP3 conversion
+- Xcode 15+（Swift 6 工具链）
+- 可用 `ncmdump` 二进制（从 `assets/` 打包或本机安装）
+- 可选：`ffmpeg`（用于 FLAC -> MP3）
 
-## Signing & Notarization (Optional)
+## 签名与公证（可选）
 
-Use:
+使用：
 
 ```bash
 ./scripts/sign_and_notarize.sh
 ```
 
-You need Apple Developer credentials and notarization configuration.
+需要 Apple Developer 账号与公证配置。
