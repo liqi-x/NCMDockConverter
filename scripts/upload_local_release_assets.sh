@@ -41,6 +41,11 @@ if [[ ! -f "$ZIP_PATH" || ! -f "$DMG_PATH" ]]; then
   exit 1
 fi
 
+if ! gh release view "$TAG" --repo "$REPO" >/dev/null 2>&1; then
+  echo "Release $TAG not found, creating it from existing tag..."
+  gh release create "$TAG" --repo "$REPO" --verify-tag --title "$TAG" --notes ""
+fi
+
 echo "Uploading assets to release $TAG in $REPO ..."
 gh release upload "$TAG" "$ZIP_PATH" "$DMG_PATH" --repo "$REPO" --clobber
 echo "Done."
