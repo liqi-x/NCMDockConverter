@@ -7,12 +7,12 @@ let package = Package(
         .macOS(.v13)
     ],
     products: [
-        .executable(name: "NCMConverter", targets: ["NCMDockConverter"])
+        .executable(name: "NCMConverter", targets: ["NCMConverter"])
     ],
     targets: [
         .executableTarget(
-            name: "NCMDockConverter",
-            path: "Sources/NCMDockConverter"
+            name: "NCMConverter",
+            path: "Sources/NCMConverter"
         )
     ]
 )

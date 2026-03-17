@@ -1,174 +1,84 @@
 # NCMConverter (macOS)
 
-一个可放在 Dock 运行的 macOS 小工具，**主打双击直接转换**：
+A macOS app for NetEase `.ncm` conversion, focused on **double-click direct conversion**.
 
-- 在 Finder 中双击 `.ncm`（或右键“打开方式”选择 NCMConverter），即可静默转换
-- 不弹主界面，直接在原目录输出音频文件
-- 转换完成自动退出
+## Features
 
-同时也支持把 `.ncm` 拖入窗口或拖到 Dock 图标转换。
+- Double-click `.ncm` in Finder (or use **Open With -> NCMConverter**) to convert silently
+- Drag `.ncm` onto Dock icon for silent conversion
+- Drag `.ncm` into app window for visible log mode
+- Optional setting: force output to MP3 when source stream is FLAC
+- Extra utility: drop `.flac` to convert directly to `.mp3`
+- Output files are written in the original file directory
 
-基于文档与工具：<https://github.com/taurusxin/ncmdump>
+Based on: [taurusxin/ncmdump](https://github.com/taurusxin/ncmdump)
 
-## 功能
+## Quick Start
 
-- **双击/打开方式直接转换（优先能力）**：在 Finder 中直接打开 `.ncm` 即可开始转换
-- 拖拽一个或多个 `.ncm` 文件到窗口
-- 把 `.ncm` 文件直接拖到 Dock 里的应用图标
-- 逐个调用 `ncmdump <file.ncm>`
-- 输出文件保留在原目录（由 `ncmdump` 默认行为决定）
-- 窗口中显示实时日志
-
-## 依赖
-
-- macOS 13+
-- Xcode 15+（或带 Swift 6 工具链）
-- `ncmdump` 可执行文件（任选其一）
-  - `brew install ncmdump`
-  - 或手动下载 release 二进制
-- （可选）`ffmpeg`，当输入实际解密为 flac 时自动转 mp3
-  - `brew install ffmpeg`
-
-## 构建并打包 `.app`
+1. Build app:
 
 ```bash
-cd /Users/liqi/Documents/Playground/NCMConverter
 ./scripts/make_app.sh
 ```
 
-输出路径：
-
-`/Users/liqi/Documents/Playground/NCMConverter/dist/NCMConverter.app`
-`/Users/liqi/Documents/Playground/NCMConverter/dist/NCMConverter-unsigned.zip`
-
-## 封装 `.dmg`
+2. Build DMG:
 
 ```bash
-cd /Users/liqi/Documents/Playground/NCMConverter
 ./scripts/make_dmg.sh
 ```
 
-输出路径：
+3. Output artifacts:
+- `dist/NCMConverter.app`
+- `dist/NCMConverter-unsigned.zip`
+- `dist/NCMConverter-unsigned.dmg`
 
-`/Users/liqi/Documents/Playground/NCMConverter/dist/NCMConverter-unsigned.dmg`
+## In-App Behavior
 
-DMG 内会包含：
+- Launch app manually: shows main window
+- Open `.ncm` by double-click / Open With / Dock drop: runs silently and exits after conversion
+- Silent log file: `~/Library/Logs/NCMConverter.log`
 
-- `NCMConverter.app`
-- `Applications` 快捷方式
-- `损坏修复(输入密码并回车).command`（输入密码后自动去隔离并打开应用）
+## 在其他电脑中打开
 
-图形化安装界面（可选）：
-
-- 将背景图放到 `assets/DMGBackground.png`
-- 重新执行 `./scripts/make_dmg.sh`
-- 脚本会自动设置窗口背景、图标大小和拖拽位置（App 左侧 -> Applications 右侧）
-
-支持的环境变量：
-
-- `APP_BUNDLE_ID`（默认 `com.liqi.NCMConverter`）
-- `APP_VERSION`（默认 `1.0`）
-- `APP_BUILD`（默认 `1`）
-
-## 应用图标 `.icns`
-
-1. 准备 1024x1024 PNG，放到：`assets/AppIcon-1024.png`
-2. 生成 `.icns`：
+- Recommended: share `dist/NCMConverter-unsigned.dmg` or `dist/NCMConverter-unsigned.zip`
+- Without Developer ID notarization, Gatekeeper behavior may vary by macOS version
+- If target Mac shows “damaged”, run:
 
 ```bash
-cd /Users/liqi/Documents/Playground/NCMConverter
-./scripts/make_icns.sh
+xattr -dr com.apple.quarantine /Applications/NCMConverter.app
 ```
 
-生成后得到：`assets/AppIcon.icns`，`make_app.sh` 会自动把它打进 `.app`。
+- DMG includes helper script: `损坏修复(输入密码并回车).command`
 
-## 签名与公证
+## Release (GitHub)
 
-脚本：`scripts/sign_and_notarize.sh`
+This repo includes GitHub Actions workflow: `.github/workflows/release.yml`
 
-必填环境变量：
+- Trigger: push tag `v*`
+- Output assets:
+  - `NCMConverter-unsigned.zip`
+  - `NCMConverter-unsigned.dmg`
 
-- `APP_BUNDLE_ID` 例如 `com.yourname.NCMConverter`
-- `DEVELOPER_ID_APPLICATION` 例如 `Developer ID Application: Your Name (TEAMID)`
-- `APPLE_TEAM_ID` 例如 `ABCDE12345`
-
-认证方式二选一：
-
-- 推荐：`NOTARY_PROFILE`（`xcrun notarytool store-credentials` 保存后的 profile 名称）
-- 或：`APPLE_ID` + `APP_SPECIFIC_PASSWORD`
-
-执行示例：
+Example:
 
 ```bash
-cd /Users/liqi/Documents/Playground/NCMConverter
-APP_BUNDLE_ID="com.yourname.NCMConverter" \
-DEVELOPER_ID_APPLICATION="Developer ID Application: Your Name (ABCDE12345)" \
-APPLE_TEAM_ID="ABCDE12345" \
-NOTARY_PROFILE="AC_NOTARY" \
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+## Development Requirements
+
+- macOS 13+
+- Xcode 15+ (Swift 6 toolchain)
+- `ncmdump` binary available (bundled from `assets/` or local install)
+- Optional: `ffmpeg` for FLAC->MP3 conversion
+
+## Signing & Notarization (Optional)
+
+Use:
+
+```bash
 ./scripts/sign_and_notarize.sh
 ```
 
-脚本会自动执行：
-
-1. 重新构建 `.app`
-2. 对可执行文件和 app 签名
-3. `notarytool submit --wait`
-4. `stapler staple` + `stapler validate`
-
-并生成可分发文件：
-
-- `/Users/liqi/Documents/Playground/NCMConverter/dist/NCMConverter-notarized.zip`
-
-## 运行
-
-双击 `dist/NCMConverter.app` 即可；应用会出现在 Dock。
-
-## 最快使用方式（推荐）
-
-1. 安装后，在 Finder 中找到 `.ncm` 文件
-2. 直接双击（或右键 -> 打开方式 -> `NCMConverter`）
-3. 自动静默转换，输出写回原目录
-
-## 分享给其他电脑（重要）
-
-- 请优先分享 zip 文件，不要直接把 `.app` 拖进聊天工具发送
-- 或分享 dmg 文件：`dist/NCMConverter-unsigned.dmg`
-- 无签名版本分享：`dist/NCMConverter-unsigned.zip`
-- 签名公证版本分享：`dist/NCMConverter-notarized.zip`（推荐）
-
-无开发者账号时（重要）：
-
-- `make_app.sh` 会执行本地 ad-hoc 签名（`codesign -`）并清理隔离属性，以降低“已损坏”概率
-- 但不同 macOS 版本策略不同，仍不能替代 Developer ID 公证
-- 若接收方仍出现“已损坏且无仍要打开”，通常只能在接收方机器执行 `xattr` 清理，或改用开发者签名+公证版本
-
-若接收方仍提示“已损坏”，可在接收方机器执行：
-
-```bash
-xattr -dr com.apple.quarantine /path/to/NCMConverter.app
-```
-
-启动行为：
-
-- 手动双击启动：显示主界面
-- 双击 `.ncm` / 用“打开方式”唤起 / 拖 `.ncm` 到 Dock 图标：后台静默转换，不弹主界面；完成后自动退出
-
-静默模式日志文件：
-
-- `~/Library/Logs/NCMConverter.log`
-
-## Dock 拖拽排障
-
-如果“拖到 Dock 图标”仍无反应，请按顺序做：
-
-1. 删除旧的 Dock 图标（右键图标 -> 选项 -> 从 Dock 中移除）
-2. 用新构建产物替换旧 app：`dist/NCMConverter.app`
-3. 双击新 app 启动一次，再把它重新固定到 Dock
-4. 再次把 `.ncm` 拖到 Dock 图标测试
-
-原因是 macOS 会缓存应用的文件类型声明，旧缓存可能还指向旧构建。
-
-## 备注
-
-- 当前实现依赖外部 `ncmdump`，不会内置解密算法。
-- 转换后是否为 mp3 或 flac 由源文件内容决定（与 `ncmdump` 一致）。
+You need Apple Developer credentials and notarization configuration.
