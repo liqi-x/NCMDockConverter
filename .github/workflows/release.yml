@@ -20,7 +20,19 @@ jobs:
       - name: Build DMG And ZIP
         run: |
           chmod +x ./scripts/make_app.sh ./scripts/make_dmg.sh
-          ./scripts/make_dmg.sh
+          ./scripts/make_app.sh
+          mkdir -p dist/.ci-dmg-staging
+          cp -R dist/NCMDockConverter.app dist/.ci-dmg-staging/NCMDockConverter.app
+          ln -s /Applications dist/.ci-dmg-staging/Applications
+          hdiutil create \
+            -volname "NCMDockConverter" \
+            -srcfolder dist/.ci-dmg-staging \
+            -fs HFS+ \
+            -format UDZO \
+            -imagekey zlib-level=9 \
+            -ov \
+            dist/NCMDockConverter-unsigned.dmg
+          rm -rf dist/.ci-dmg-staging
 
       - name: Collect Artifacts
         run: |
